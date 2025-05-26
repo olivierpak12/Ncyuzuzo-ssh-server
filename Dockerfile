@@ -1,6 +1,7 @@
 
 FROM ubuntu:22.04
 
+# Tegura ubutumwa
 RUN apt-get update && \
     apt-get install -y openssh-server && \
     useradd -m ncyuzuzo && \
@@ -8,11 +9,16 @@ RUN apt-get update && \
     mkdir /var/run/sshd && \
     mkdir -p /home/ncyuzuzo/.ssh && \
     chmod 700 /home/ncyuzuzo/.ssh && \
+    chown ncyuzuzo:ncyuzuzo /home/ncyuzuzo/.ssh && \
     sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-    echo "Port 12345" >> /etc/ssh/sshd_config && \
     echo "PermitEmptyPasswords no" >> /etc/ssh/sshd_config && \
     echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
 
-EXPOSE 12345
+# Railway ihindura port, dushyireho environment variable
+ENV PORT=2222
 
-CMD ["/usr/sbin/sshd", "-D"]
+# Gufungura iyo port
+EXPOSE ${PORT}
+
+# Gutangiza SSH server
+CMD ["/usr/sbin/sshd", "-D", "-e"]
