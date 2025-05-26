@@ -1,10 +1,9 @@
-FROM ubuntu:22.04
+
+FROM ubuntu:20.04
 
 RUN apt-get update && \
     apt-get install -y openssh-server && \
-    mkdir /var/run/sshd && \
-    echo 'root:password123' | chpasswd && \
-    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+    mkdir /var/run/sshd
 
 EXPOSE 22
 
